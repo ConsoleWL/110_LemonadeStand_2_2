@@ -46,8 +46,5 @@ namespace LemonadeStand
             int number = rnd.Next(1, 10);
             return number;
         }
-
-        
-
     }
 }

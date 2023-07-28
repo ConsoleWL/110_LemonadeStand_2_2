@@ -11,7 +11,6 @@ namespace LemonadeStand
         // member variables (HAS A)
         private double money;
         public double profit;
-        public double balanceBefoStore;
         public double Money
         {
             get
@@ -24,7 +23,6 @@ namespace LemonadeStand
         public Wallet()
         {
             money = 20.00;
-            balanceBefoStore = money;
         }
 
         //Member Methods (CAN DO)

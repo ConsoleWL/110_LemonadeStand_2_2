@@ -15,7 +15,7 @@ namespace LemonadeStand
             name = "Customer";
         }
 
-        public bool Purchase(Player player, Recipe recipe, string weather) // maybe add weather conditions
+        public bool Purchase(Player player, Recipe recipe, string weather)
         {
             int number = UserInterface.GenerateRandom1to9();
 
@@ -129,9 +129,6 @@ namespace LemonadeStand
                     }
                 }
             }
-
         }
-
-
     }
 }

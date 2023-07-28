@@ -39,7 +39,6 @@ namespace LemonadeStand
             Console.WriteLine("Can you make the big bucks");
         }
 
-
         public void WeatherChanger()
         {
             int changeWeather = UserInterface.GenerateRandom1to9();
@@ -74,7 +73,6 @@ namespace LemonadeStand
         {
             for (int i = 0; i < days[currentDay - 1].customers.Count - 1; i++)
             {
-
                 bool result = days[currentDay - 1].customers[i].Purchase(player, player.recipe, days[currentDay - 1].weather.condition);
 
                 if (result == true)
@@ -90,7 +88,7 @@ namespace LemonadeStand
 
         public void DisplayActualWether()
         {
-            Console.WriteLine($"\nToday weather was {days[currentDay - 1].weather.condition}, temperature {days[currentDay - 1].weather.temperature} ");
+            Console.WriteLine($"\nActual weather was {days[currentDay - 1].weather.condition}, Temperature: {days[currentDay - 1].weather.temperature} C");
         }
 
         public void AnounceStartOftheDay()
@@ -98,7 +96,7 @@ namespace LemonadeStand
             Console.WriteLine($"\nDay {currentDay} begins!");
         }
 
-        public void AcounceEndOftheDay()// hsould have Player player in here in case we have two players
+        public void AcounceEndOftheDay()
         {
             Console.WriteLine($"\nDay {currentDay} is over! ");
             currentDay++;
@@ -106,7 +104,7 @@ namespace LemonadeStand
 
         public void GameResuts()
         {
-            Console.WriteLine($"\nThe week is over. Your total profit is {player.wallet.profit}");
+            Console.WriteLine($"\nThe week is over. Your total profit is {player.wallet.Money}");
         }
         
         public void GameSimulation()

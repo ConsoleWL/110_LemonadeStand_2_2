@@ -59,13 +59,6 @@ namespace LemonadeStand
         public void DisplayTemperature()
         {
             Console.WriteLine($"\nToday's forecast prediction: {predictedForecast}");
-        }
-        // I think has to be a method to Display Actual wheather after
-
-        public void DisplayActuralTemperature()
-        {
-            Console.WriteLine("Actual weather is not yet done");
-        }
-        
+        }  
     }
 }

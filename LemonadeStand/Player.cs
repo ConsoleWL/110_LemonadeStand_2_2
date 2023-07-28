@@ -13,14 +13,12 @@ namespace LemonadeStand
         public Inventory inventory;
         public Wallet wallet;
         public Recipe recipe;
-        Store store;
         public string name;
         internal int drinksAvailable;
         internal int drinksSold;
+        internal double balanceBeforeday;
+        internal double balanceaAtertheday;
         
-        //internal double balanceBeforeGoingToStore;
-        
-
         // constructor (SPAWNER)
         public Player()
         {
@@ -28,13 +26,13 @@ namespace LemonadeStand
             wallet = new Wallet();
             recipe = new Recipe();
             name = "Player";
+
             drinksAvailable = 0;
             drinksSold = 0;
-            
+            balanceBeforeday = wallet.Money;
         }
 
         // member methods (CAN DO)
-
         public void OpenTheStand()
         {
             recipe.DisplayRecipe();
@@ -50,16 +48,13 @@ namespace LemonadeStand
         }
 
 
-
         public void DrinkPreperation()
         {
             recipe.ChangeRecipe();
             MakeAPitcher(UserInterface.GetNumberOfPitchers());
-
         }
         public void MakeAPitcher(int amountOfPitchers)
         {
-
             int lemonsForPitcher = recipe.numberOfLemons * amountOfPitchers;
             int sugarForPitcher = recipe.numberOfSugarCubes * amountOfPitchers;
             int iceForPitcher = recipe.numberOfIceCubes * amountOfPitchers;
@@ -83,6 +78,7 @@ namespace LemonadeStand
         {
             bool result = CheckingItemsExitsForSale();
             SellingADrink(result);
+            Cashier(result);
         }
 
         public bool CheckingItemsExitsForSale()
@@ -108,12 +104,17 @@ namespace LemonadeStand
 
         public void SellingADrink(bool selling)
         {
-
             if (selling)
             {
                 Console.WriteLine($"You sold a cup of {recipe.name} for ${recipe.price}");
                 inventory.cups.RemoveAt(0);
-                //that logic also can seporate and make a method for it()
+            }
+        }
+
+        public void Cashier(bool selling)
+        {
+            if (selling)
+            {
                 drinksAvailable--;
                 drinksSold++;
                 wallet.AcceptMoney(recipe.price);
@@ -127,16 +128,17 @@ namespace LemonadeStand
             CalculateProfitLoss();
             ResetTheDay();
         }
+
         public void CalculateProfitLoss()
         {
-            Console.WriteLine($"Player: {name} | Drinks sold {drinksSold} | Drinks left: {drinksAvailable} | Total Profit {wallet.profit - wallet.Money}");
+            balanceaAtertheday = wallet.Money - balanceBeforeday;
+            Console.WriteLine($"Player: {name} | Drinks sold {drinksSold} | Drinks left: {drinksAvailable} | Profit for the day: {balanceaAtertheday}");
         }
-
         public void ResetTheDay()
         {
             drinksSold = 0;
             drinksAvailable = 0;
-            wallet.balanceBefoStore = wallet.Money;
+            balanceBeforeday = wallet.Money;
         }
     }
 }

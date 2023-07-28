@@ -29,7 +29,6 @@ namespace LemonadeStand
             Console.WriteLine($"Lemon: ${pricePerLemon}  SugarCube: ${pricePerSugarCube} IceCube: ${pricePerIceCube} Cup: ${pricePerCup}");
         }
 
-
         public void SellItems(Player players)
         {
             SellLemons(players);
@@ -73,7 +72,6 @@ namespace LemonadeStand
                     Console.WriteLine($"Not enough funds, avalable: ${Math.Round(player.wallet.Money, 2)}");
                 }
             }
-            
         }
 
         public void SellIceCubes(Player player)
@@ -93,7 +91,6 @@ namespace LemonadeStand
                     Console.WriteLine($"Not enough funds, avalable: ${Math.Round(player.wallet.Money, 2)}");
                 }
             }
-            
         }
 
         public void SellCups(Player player)
@@ -113,7 +110,6 @@ namespace LemonadeStand
                     Console.WriteLine($"Not enough funds, avalable: ${Math.Round(player.wallet.Money, 2)}");
                 }
             }
-            
         }
 
         private double CalculateTransactionAmount(int itemCount, double itemPricePerUnit)
