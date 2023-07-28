@@ -14,7 +14,7 @@ namespace LemonadeStand
         // constructor (SPAWNER)
         static Item()
         {
-            
+
         }
 
         // member methods (CAN DO)

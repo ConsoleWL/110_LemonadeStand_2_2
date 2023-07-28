@@ -46,7 +46,7 @@ namespace LemonadeStand
                 {
                     Console.WriteLine("Enter a name:");
                     name = Console.ReadLine();
-                    if (name == "")
+                    if (name == "" || name == " ")
                     {
                         name = "Secret Drink";
                     }

@@ -12,6 +12,7 @@ namespace LemonadeStand
         public int temperature;
         public List<string> weatherConditions;
         public string predictedForecast;
+        public bool isWeatherChanged = false;
 
         public Weather()
         {
@@ -59,6 +60,12 @@ namespace LemonadeStand
         {
             Console.WriteLine($"\nToday's forecast prediction: {predictedForecast}");
         }
+        // I think has to be a method to Display Actual wheather after
 
+        public void DisplayActuralTemperature()
+        {
+            Console.WriteLine("Actual weather is not yet done");
+        }
+        
     }
 }

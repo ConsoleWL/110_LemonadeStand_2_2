@@ -9,142 +9,129 @@ namespace LemonadeStand
     internal class Customer
     {
         public string name;
+
         public Customer()
         {
             name = "Customer";
         }
 
-        public void Purchase(Player player, Recipe recipe, string weather ) // maybe add weather conditions
+        public bool Purchase(Player player, Recipe recipe, string weather) // maybe add weather conditions
         {
             int number = UserInterface.GenerateRandom1to9();
 
-            if(player.inventory.cups.Count > 0 && player.drinksAvailable > 0)
+            if (weather == "perfect")
             {
-                if (weather == "perfect")
+                if (recipe.price <= 1)
                 {
-                    if (recipe.price <= 1)
+                    if (number > 2)
                     {
-                        if (number > 2)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A custo0mer walks by...");
-                        }
+                        return true;
                     }
-                    else if (recipe.price > 1 && recipe.price < 3)
+                    else
                     {
-                        if (number > 3)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
-                    }
-                    else if (recipe.price >= 3)
-                    {
-                        if (number > 4)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
-                    }
+                        return false;
 
-                }
-                else if (weather == "good")
-                {
-                    if (recipe.price <= 1)
-                    {
-                        if (number > 3)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
-                    }
-                    else if (recipe.price > 1 && recipe.price < 3)
-                    {
-                        if (number > 4)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
-                    }
-                    else if (recipe.price >= 3)
-                    {
-                        if (number > 5)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
                     }
                 }
-                else // if weather is bad
+                else if (recipe.price > 1 && recipe.price < 3)
                 {
-                    if (recipe.price <= 1)
+                    if (number > 3)
                     {
-                        if (number > 3)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
+                        return true;
                     }
-                    else if (recipe.price > 1 && recipe.price < 3)
+                    else
                     {
-                        if (number > 5)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
+                        return false;
                     }
-                    else if (recipe.price >= 3)
+                }
+                else
+                {
+                    if (number > 4)
                     {
-                        if (number > 6)
-                        {
-                            player.inventory.cups.RemoveAt(0);
-                            player.wallet.AcceptMoney(recipe.price);
-                        }
-                        else
-                        {
-                            Console.WriteLine("A customer walks by...");
-                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            else if (weather == "good")
+            {
+                if (recipe.price <= 1)
+                {
+                    if (number > 3)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (recipe.price > 1 && recipe.price < 3)
+                {
+                    if (number > 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (number > 5)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }
-            else
+            else // if weather is bad
             {
-                Console.WriteLine("Don't have enough cups!");
+                if (recipe.price <= 1)
+                {
+                    if (number > 3)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (recipe.price > 1 && recipe.price < 3)
+                {
+                    if (number > 5)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (number > 6)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
 
-            
         }
+
+
     }
 }

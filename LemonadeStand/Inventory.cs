@@ -63,7 +63,5 @@ namespace LemonadeStand
                 cups.Add(cup);
             }
         }
-
-
     }
 }

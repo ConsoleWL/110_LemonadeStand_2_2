@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LemonadeStand
 {
@@ -12,9 +13,13 @@ namespace LemonadeStand
         public Inventory inventory;
         public Wallet wallet;
         public Recipe recipe;
-        string name;
+        Store store;
+        public string name;
         internal int drinksAvailable;
         internal int drinksSold;
+        
+        //internal double balanceBeforeGoingToStore;
+        
 
         // constructor (SPAWNER)
         public Player()
@@ -25,21 +30,35 @@ namespace LemonadeStand
             name = "Player";
             drinksAvailable = 0;
             drinksSold = 0;
+            
         }
 
         // member methods (CAN DO)
-        public void DisplayInvetory()
+
+        public void OpenTheStand()
         {
-            Console.WriteLine($"\nYou have ${Math.Round(wallet.Money)}");
+            recipe.DisplayRecipe();
+            DisplayInvetory();
+        }
+        public void DisplayInvetory()
+        {   
+            Console.WriteLine($"\nYou have ${Math.Round(wallet.Money,2)}");
             Console.WriteLine($"You have {inventory.lemons.Count} lemons");
             Console.WriteLine($"You have {inventory.sugarCubes.Count} sugar cubes");
             Console.WriteLine($"You have {inventory.iceCubes.Count} ice cubes");
             Console.WriteLine($"You have {inventory.cups.Count} cups\n");
         }
 
+
+
+        public void DrinkPreperation()
+        {
+            recipe.ChangeRecipe();
+            MakeAPitcher(UserInterface.GetNumberOfPitchers());
+
+        }
         public void MakeAPitcher(int amountOfPitchers)
         {
-            bool itemsAvailable = true;
 
             int lemonsForPitcher = recipe.numberOfLemons * amountOfPitchers;
             int sugarForPitcher = recipe.numberOfSugarCubes * amountOfPitchers;
@@ -50,18 +69,74 @@ namespace LemonadeStand
                 inventory.lemons.RemoveRange(0, lemonsForPitcher);
                 inventory.sugarCubes.RemoveRange(0, sugarForPitcher);
                 inventory.iceCubes.RemoveRange(0, iceForPitcher);
+
+                drinksAvailable = 8 * amountOfPitchers;
             }
             catch (Exception)
             {
-                itemsAvailable = false;
                 Console.WriteLine($"You dont have enough items");
             }
+        }
 
-            if (itemsAvailable == true)
+
+        public void Sell()
+        {
+            bool result = CheckingItemsExitsForSale();
+            SellingADrink(result);
+        }
+
+        public bool CheckingItemsExitsForSale()
+        {
+            if (drinksAvailable > 0)
             {
-                // 1 pitcher = 8 cups.
-                drinksAvailable = 8 * amountOfPitchers;
+                if (inventory.cups.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Run out of cups....");
+                    return false;
+                }
             }
+            else
+            {
+                Console.WriteLine("Sold out!");
+                return false;
+            }
+        }
+
+        public void SellingADrink(bool selling)
+        {
+
+            if (selling)
+            {
+                Console.WriteLine($"You sold a cup of {recipe.name} for ${recipe.price}");
+                inventory.cups.RemoveAt(0);
+                //that logic also can seporate and make a method for it()
+                drinksAvailable--;
+                drinksSold++;
+                wallet.AcceptMoney(recipe.price);
+                wallet.profit += recipe.price;
+            }
+        }
+ 
+
+        public void CloseTheStand()
+        {
+            CalculateProfitLoss();
+            ResetTheDay();
+        }
+        public void CalculateProfitLoss()
+        {
+            Console.WriteLine($"Player: {name} | Drinks sold {drinksSold} | Drinks left: {drinksAvailable} | Total Profit {wallet.profit - wallet.Money}");
+        }
+
+        public void ResetTheDay()
+        {
+            drinksSold = 0;
+            drinksAvailable = 0;
+            wallet.balanceBefoStore = wallet.Money;
         }
     }
 }

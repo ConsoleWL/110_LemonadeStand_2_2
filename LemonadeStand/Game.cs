@@ -39,97 +39,91 @@ namespace LemonadeStand
             Console.WriteLine("Can you make the big bucks");
         }
 
+
         public void WeatherChanger()
         {
             int changeWeather = UserInterface.GenerateRandom1to9();
             if (changeWeather < 3)
             {
                 //then well change it
-                if (days[currentDay -1].weather.condition == "perfect")
+                if (days[currentDay - 1].weather.condition == "perfect")
                 {
                     days[currentDay - 1].weather.condition = "bad";
                     days[currentDay - 1].weather.temperature = 50;
-                    days[currentDay - 1].weather.predictedForecast = days[currentDay -1].weather.weatherConditions[2];
+                    days[currentDay - 1].weather.predictedForecast = days[currentDay - 1].weather.weatherConditions[2];
+                    days[currentDay - 1].weather.isWeatherChanged = true;
                 }
                 else if (days[currentDay - 1].weather.condition == "bad")
                 {
                     days[currentDay - 1].weather.condition = "perfect";
                     days[currentDay - 1].weather.temperature = 80;
                     days[currentDay - 1].weather.predictedForecast = days[currentDay - 1].weather.weatherConditions[2];
-
+                    days[currentDay - 1].weather.isWeatherChanged = true;
                 }
                 else
                 {
-                    days[currentDay -1].weather.condition = "perfect";
+                    days[currentDay - 1].weather.condition = "perfect";
                     days[currentDay - 1].weather.temperature = 80;
                     days[currentDay - 1].weather.predictedForecast = days[currentDay - 1].weather.weatherConditions[2];
+                    days[currentDay - 1].weather.isWeatherChanged = true;
                 }
             }
-        }
-
-        public void DisplayPrices()
-        {
-            Console.WriteLine($"Lemon: $0.5  SugarCube: $0.10 IceCube: $0.01 Cup: $0.25");
         }
 
         public void CustomerPurchase()
         {
-            for (int i = 0; i < days[currentDay -1].customers.Count - 1; i++)
+            for (int i = 0; i < days[currentDay - 1].customers.Count - 1; i++)
             {
-                if(player.drinksAvailable > 0)
+
+                bool result = days[currentDay - 1].customers[i].Purchase(player, player.recipe, days[currentDay - 1].weather.condition);
+
+                if (result == true)
                 {
-                    days[currentDay - 1].customers[i].Purchase(player, player.recipe, days[currentDay - 1].weather.condition);
-                    Console.WriteLine($"A customer buys a cup of {player.recipe.name}");
-                    
-                    player.drinksAvailable--;
-                    player.drinksSold++;
-
-                    player.wallet.totalProfit += player.recipe.price;
-
-                    //{
-                    //    Console.WriteLine("Not enough cups...Run out of cups!!!");
-                    //}
+                    player.Sell();
                 }
                 else
                 {
-                    Console.WriteLine("Sold out!");
+                    Console.WriteLine("Customer pass by......");
                 }
-            }
+            }  
         }
+
         public void DisplayActualWether()
         {
             Console.WriteLine($"\nToday weather was {days[currentDay - 1].weather.condition}, temperature {days[currentDay - 1].weather.temperature} ");
         }
-        
-        public void DisplayProfitLoss()// hsould have Player player in here in case we have two players
+
+        public void AnounceStartOftheDay()
         {
-            Console.WriteLine($"\nDay {currentDay} is over! You sold {player.drinksSold} cups, which brought in ${player.drinksSold * player.recipe.price}");
+            Console.WriteLine($"\nDay {currentDay} begins!");
+        }
+
+        public void AcounceEndOftheDay()// hsould have Player player in here in case we have two players
+        {
+            Console.WriteLine($"\nDay {currentDay} is over! ");
+            currentDay++;
         }
 
         public void GameResuts()
         {
-            Console.WriteLine($"\nThe week is over. Your total profit is {player.wallet.totalProfit}");
+            Console.WriteLine($"\nThe week is over. Your total profit is {player.wallet.profit}");
         }
-
+        
         public void GameSimulation()
         {
-            while(currentDay < 8)
+            while (currentDay < 8)
             {
-                player.drinksSold = 0;
-
-                Console.WriteLine($"\nDay {currentDay} begins!");
-
-                player.DisplayInvetory();
-                DisplayPrices();
-                store.SellItems(player);
-                player.DisplayInvetory();
+                AnounceStartOftheDay();
 
                 days[currentDay - 1].weather.DisplayTemperature();
 
-                player.recipe.DisplayRecipe();
-                player.recipe.ChangeRecipe();
-                
-                player.MakeAPitcher(UserInterface.GetNumberOfPitchers());
+                player.OpenTheStand();
+
+                store.DisplayStorePrices();
+                store.SellItems(player);
+
+
+                player.DrinkPreperation();
 
                 WeatherChanger();
 
@@ -137,9 +131,9 @@ namespace LemonadeStand
 
                 DisplayActualWether();
 
-                DisplayProfitLoss();
-                player.drinksAvailable = 0;
-                currentDay++;
+                player.CloseTheStand();
+
+                AcounceEndOftheDay();
             }
         }
 
